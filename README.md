@@ -9,6 +9,11 @@ In the source code, I made some changes (kludges) for JSCL and Moren environment
 `pat-match`, `pat-match-abbrev`, `expand-pat-match-abbrev` from original code were renamed to `pm:match`, `pm:match-abbrev`, `pm:expand-match-abbrev`
 
 
+## Status
+
+`production`
+
+
 ## API
 
 ### Function
