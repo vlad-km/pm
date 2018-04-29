@@ -6,7 +6,7 @@ Initially, the author's codes are written very inefficiently and need further de
 
 In the source code, I made some changes (kludges) for JSCL and Moren environment. Now code optimization for MOREN environment (electron version).
 
-`pat-match`, `pat-match-abbrev`, `expand-pat-match-abbrev` from original code were renamed to `pm:match`, `pm:match-abbrev`, `pm:expand-match-abbrev`
+`pat-match` from original code were renamed to `pm:match`.
 
 
 ## Status
