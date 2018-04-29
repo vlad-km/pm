@@ -8,9 +8,7 @@
 (defpackage :pm
   (:use #:cl)
   (:export #:?is #:?or #:?and #:?not #:?* #:?+ #:?? #:?if #:?iff
-           #:match
-           #:match-abbrev
-           #:expand-match-abbrev))
+           #:match))
 
 
 (in-package :pm)

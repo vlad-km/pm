@@ -267,32 +267,7 @@
             (match pat input bindings))))
 
 ;;; ?if
-;;; original fixed for jscl
 ;;; mvk
-;;;
-;;; note: bad performance
-;;;       use times for 100 iterations with  patterns like:
-;;;                  (?x ?op ?y is ?z (pm:?if (eql (funcall ?op ?x ?y) ?z)))
-;;;                  (3 + 4 is 7)
-;;;       over 6 secs (6.739)
-;;; note: use pm:?if with carefull
-;;;
-
-#|
-(defun match-if (pattern input bindings)
-    "Test an arbitrary expression involving variables.
-  The pattern looks like ((?if code) . rest)."
-    (let ((var) (val) (val1) (result))
-        (and
-         (eval
-          `(let ,(dolist (it bindings result)
-                     (setq var (car it) val (cdr it))
-                     (setq val1 (if (symbolp val) `',val (escape-first-if val)))
-                     (push (list var val1) result))
-               ,(second (first pattern))))
-         (match (rest pattern) input bindings))))
-|#
-
 (defun match-if (pattern input bindings)
     "Test an arbitrary expression involving variables.
   The pattern looks like ((?if code) . rest)."
@@ -301,6 +276,8 @@
      (match (rest pattern) input bindings)))
 
 ;;; mvk
+;;;
+;;; the pattern looks like ((?iff (function-name ?var aaa ...)) . rest)
 (defun match-iff (pattern input bindings)
     (let ((code (match-iff-quoter (sublis bindings (second (first pattern))))))
         (and
@@ -322,10 +299,6 @@
           (t `',x)))
 
 
-
-;;; mvk jscl kludge
-(defun escape-first-if (val)
-    (if (listp val) `',val val))
 
 ;;; note: not tested
 ;;;
