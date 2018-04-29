@@ -135,6 +135,17 @@ In the source code, I made some changes (kludges) for JSCL and Moren environment
    (START AAA BBB CCC DDD END)
    ((?TAIL START AAA BBB CCC DDD END))
 
+   (pm:match '(start (pm:?* ?tail) (pm:?if (print ?tail))) '(start aaa bbb ccc ddd end))
+   ;;=>
+   NIL
+   (AAA)
+   (AAA BBB)
+   (AAA BBB CCC)
+   (AAA BBB CCC DDD)
+   (AAA BBB CCC DDD END)
+   ((?TAIL AAA BBB CCC DDD END))
+
+
    (pm:match '(?a ?b (pm:?or (pm:?or 1 2 3) (pm:?is ?tail listp))) '(1 (2) (c)))
    ;;=>
    ((?TAIL C) (?B 2) (?A . 1))
