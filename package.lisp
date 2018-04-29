@@ -7,7 +7,7 @@
 
 (defpackage :pm
   (:use #:cl)
-  (:export #:?is #:?or #:?and #:?not #:?* #:+ #:?? #:?if
+  (:export #:?is #:?or #:?and #:?not #:?* #:?+ #:?? #:?if
            #:match
            #:match-abbrev
            #:expand-match-abbrev))
