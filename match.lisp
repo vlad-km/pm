@@ -28,6 +28,7 @@
 (setf (gethash '?+ *segment-symbols*) 'segment-match+)
 (setf (gethash '?? *segment-symbols*) 'segment-match?)
 (setf (gethash '?if *segment-symbols*)  'match-if)
+(setf (gethash '?iff *segment-symbols*)  'match-iff)
 
 ;;; mvk
 ;;;    accessors for pm functional symbols
@@ -276,6 +277,8 @@
 ;;;       over 6 secs (6.739)
 ;;; note: use pm:?if with carefull
 ;;;
+
+#|
 (defun match-if (pattern input bindings)
     "Test an arbitrary expression involving variables.
   The pattern looks like ((?if code) . rest)."
@@ -288,6 +291,37 @@
                      (push (list var val1) result))
                ,(second (first pattern))))
          (match (rest pattern) input bindings))))
+|#
+
+(defun match-if (pattern input bindings)
+    "Test an arbitrary expression involving variables.
+  The pattern looks like ((?if code) . rest)."
+    (and
+     (eval (match-iff-quoter (sublis bindings (second (first pattern)))))
+     (match (rest pattern) input bindings)))
+
+;;; mvk
+(defun match-iff (pattern input bindings)
+    (let ((code (match-iff-quoter (sublis bindings (second (first pattern))))))
+        (and
+         (apply (car code) (rest code))
+         (match (rest pattern) input bindings))))
+
+(defun match-iff-quoter (lst)
+    (mapcar (lambda (x)
+                (cond ((numberp x) x)
+                      ((symbolp x)
+                       (quoter x) )
+                      ((listp x) (match-iff-quoter x))
+                      (t x))) lst))
+
+(defun quoter (x)
+    (cond ((fboundp x)
+           (if (boundp x) `',x  x))
+          ((boundp x) x)
+          (t `',x)))
+
+
 
 ;;; mvk jscl kludge
 (defun escape-first-if (val)
