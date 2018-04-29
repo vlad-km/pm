@@ -14,30 +14,16 @@ In the source code, I made some changes (kludges) for JSCL and Moren environment
 `production`
 
 
-## API
+# API
 
 ### Function
 
-#### pm:match 
+*pm:match* 
 
 
-### Selectors
+### Patterns
 
-#### pm:?*
-
-#### pm:?+
-
-#### pm:??
-
-#### pm::?if
-
-#### pm:?is
-
-#### pm:?or
-
-#### pm:?and
-
-#### pm:?not
+*pm:?**  *pm:?+  pm:??  pm::?if  pm:?is  pm:?or  pm:?and  pm:?not*
 
 
 ## Use
@@ -135,6 +121,33 @@ In the source code, I made some changes (kludges) for JSCL and Moren environment
     Execution took 0.24 seconds.
     Execution took 6.799 seconds.
 ```
+
+```lisp
+
+   (pm:match '((pm:?* ?tail) (pm:?if (print ?tail))) '(start aaa bbb ccc ddd end))
+   ;; =>
+   NIL
+   (START)
+   (START AAA)
+   (START AAA BBB)
+   (START AAA BBB CCC)
+   (START AAA BBB CCC DDD)
+   (START AAA BBB CCC DDD END)
+   ((?TAIL START AAA BBB CCC DDD END))
+
+   (pm:match '(?a ?b (pm:?or (pm:?or 1 2 3) (pm:?is ?tail listp))) '(1 (2) (c)))
+   ;;=>
+   ((?TAIL C) (?B 2) (?A . 1))
+
+   (pm:match '(?a ?b (pm:?or (pm:?or 1 2 3) (pm:?is ?tail listp))) '(1 (2) 3))
+   ;;=>
+   ((?B 2) (?A . 1))
+
+
+```
+
+
+
 
 ## Copyright
 Copyright © 2017,2018 Vladimir Mezentsev
